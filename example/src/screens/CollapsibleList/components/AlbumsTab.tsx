@@ -1,4 +1,4 @@
-import { CollapsibleScrollView } from '@r0b0t3d/react-native-collapsible';
+import { CollapsibleScrollView } from '@ys251294/react-native-collapsible';
 import React, { useMemo } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 

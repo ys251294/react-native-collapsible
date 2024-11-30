@@ -3,7 +3,7 @@ import {
   CollapsibleHeaderContainer,
   StickyView,
   useCollapsibleContext,
-} from '@r0b0t3d/react-native-collapsible';
+} from '@ys251294/react-native-collapsible';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 
