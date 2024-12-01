@@ -92,5 +92,9 @@ export default function CollapsibleHeaderConsumer({
 const styles = StyleSheet.create({
   container: {
     zIndex: 10,
+    position:'absolute',
+    left:0,
+    right:0,
+    opacity: 0.2
   },
 });

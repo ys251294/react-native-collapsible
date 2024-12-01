@@ -29,6 +29,7 @@ export type CollapsibleHandles = {
 export type CollapsibleContextType = CollapsibleHandles & {
   scrollY: Animated.SharedValue<number>;
   headerHeight: Animated.SharedValue<number>;
+  stickyHeaderHeight: Animated.SharedValue<number>;
   headerCollapsed: Animated.SharedValue<boolean>;
   /**
    * Scroll to specific view

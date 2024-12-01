@@ -12,6 +12,7 @@ export default function withCollapsibleContext<T>(Component: FC<T>) {
     const headerHeight = useSharedValue(0);
     const scrollY = useSharedValue(0);
     const fixedHeaderHeight = useSharedValue(0);
+    const stickyHeaderHeight = useSharedValue(0);
     const containerHeight = useSharedValue(0);
     const scrollViewRef = useRef<View>(null);
     const containerRef = useRef<View>(null);
@@ -63,6 +64,7 @@ export default function withCollapsibleContext<T>(Component: FC<T>) {
           };
           aStickyHeight += sHeight;
         }
+        stickyHeaderHeight.value = stickyHeight??0
         headerViewPositions.value = values;
       },
       []
@@ -113,11 +115,12 @@ export default function withCollapsibleContext<T>(Component: FC<T>) {
         scrollToLocation: (params: any) =>
           collapsibleHandlers.current?.scrollToLocation(params),
         headerHeight,
+        stickyHeaderHeight,
         scrollY,
         headerCollapsed,
         scrollToView: handleScrollToView,
       };
-    }, [scrollY, headerHeight, headerCollapsed, handleScrollToView]);
+    }, [scrollY, headerHeight, stickyHeaderHeight, headerCollapsed, handleScrollToView]);
 
     const internalContext = useMemo(
       () => ({
