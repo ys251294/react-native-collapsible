@@ -1,0 +1,1 @@
+{"version":3,"file":"useSharedValueRef.d.ts","sourceRoot":"","sources":["../../../src/utils/useSharedValueRef.ts"],"names":[],"mappings":"AACA,OAAO,QAA4B,MAAM,yBAAyB,CAAC;AAEnE,MAAM,CAAC,OAAO,UAAU,iBAAiB,CAAC,CAAC,EACzC,YAAY,EAAE,CAAC,GACd,CAAC,QAAQ,CAAC,WAAW,CAAC,CAAC,CAAC,EAAE,CAAC,KAAK,EAAE,CAAC,KAAK,IAAI,CAAC,CAgB/C"}
