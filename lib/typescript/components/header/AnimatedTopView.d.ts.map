@@ -1,0 +1,1 @@
+{"version":3,"file":"AnimatedTopView.d.ts","sourceRoot":"","sources":["../../../../src/components/header/AnimatedTopView.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,OAAO,CAAC;AAC1B,OAAO,QAA8B,MAAM,yBAAyB,CAAC;AAErE,KAAK,KAAK,GAAG;IACX,MAAM,EAAE,QAAQ,CAAC,WAAW,CAAC,MAAM,CAAC,CAAC;CACtC,CAAC;AAEF,MAAM,CAAC,OAAO,UAAU,eAAe,CAAC,EAAE,MAAM,EAAE,EAAE,KAAK,qBASxD"}
