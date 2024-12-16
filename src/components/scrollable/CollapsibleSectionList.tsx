@@ -11,10 +11,12 @@ import {
   SectionList,
   SectionListProps,
   SectionListScrollParams,
+  ViewStyle,
 } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedReaction,
+  useDerivedValue,
 } from 'react-native-reanimated';
 import useAnimatedScroll from './useAnimatedScroll';
 import useInternalCollapsibleContext from '../../hooks/useInternalCollapsibleContext';
@@ -31,7 +33,7 @@ export default function CollapsibleSectionList<Data>({
   headerSnappable = true,
   ...props
 }: Props<Data>) {
-  const { headerHeight } = useCollapsibleContext();
+  const { headerHeight, stickyHeaderHeight } = useCollapsibleContext();
   const { contentMinHeight, scrollViewRef, fixedHeaderHeight } =
     useInternalCollapsibleContext();
   const mounted = useRef(true);
@@ -112,10 +114,12 @@ export default function CollapsibleSectionList<Data>({
   const contentContainerStyle = useMemo(
     () => [
       styles.contentContainer,
-      { minHeight: internalContentMinHeight },
       props.contentContainerStyle,
+      { minHeight: internalContentMinHeight, 
+        paddingTop: stickyHeaderHeight.value + (+((props.contentContainerStyle as ViewStyle)?.paddingTop || 0))
+      },
     ],
-    [props.contentContainerStyle, internalContentMinHeight]
+    [props.contentContainerStyle, internalContentMinHeight, stickyHeaderHeight]
   );
 
   const handleContentSizeChange = useCallback((_, height) => {
@@ -124,10 +128,12 @@ export default function CollapsibleSectionList<Data>({
 
   const handleScrollToIndexFailed = useCallback(() => {}, []);
 
+  const topBarHeight = useDerivedValue(()=>headerHeight.value - stickyHeaderHeight.value, [headerHeight, stickyHeaderHeight])
+
   function renderListHeader() {
     return (
       <View>
-        <AnimatedTopView height={headerHeight} />
+        <AnimatedTopView height={topBarHeight} />
         {props.ListHeaderComponent}
       </View>
     );
