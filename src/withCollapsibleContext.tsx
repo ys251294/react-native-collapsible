@@ -26,12 +26,12 @@ export default function withCollapsibleContext<T>(Component: FC<T>) {
     }, []);
 
     const headerCollapsed = useDerivedValue(() => {
-      const maxY = fixedHeaderHeight.value;
+      const maxY = fixedHeaderHeight.value - stickyHeaderHeight.value;
       return scrollY.value >= maxY;
     }, []);
 
     const contentMinHeight = useDerivedValue(() => {
-      return containerHeight.value + fixedHeaderHeight.value;
+      return containerHeight.value + (fixedHeaderHeight.value - stickyHeaderHeight.value);
     }, []);
 
     const handleHeaderContainerLayout = useCallback(
