@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { FlatListProps, View, StyleSheet, FlatList } from 'react-native';
+import { FlatListProps, View, StyleSheet, FlatList, ViewStyle } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedReaction,
@@ -109,7 +109,10 @@ export default function CollapsibleFlatList<Data>({
     () => [
       styles.contentContainer,
       props.contentContainerStyle,
-      { minHeight: internalContentMinHeight, paddingTop: stickyHeaderHeight.value+ (props.contentContainerStyle?.paddingTop ?? 0) },
+      { 
+        minHeight: internalContentMinHeight, 
+        paddingTop: stickyHeaderHeight.value + (+((props.contentContainerStyle as ViewStyle)?.paddingTop || 0))
+      },
     ],
     [props.contentContainerStyle, internalContentMinHeight, stickyHeaderHeight]
   );
