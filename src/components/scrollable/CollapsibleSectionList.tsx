@@ -46,6 +46,8 @@ export default function CollapsibleSectionList<Data>({
 
   function setRef(ref: any) {
     scrollViewRefs.current?.push(ref)
+    // TODO: might be breaking some functionality another option might be to try callback ref
+    // @ts-ignore
     scrollViewRef.current = ref
   }
 
