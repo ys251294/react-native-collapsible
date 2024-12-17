@@ -27,6 +27,7 @@ export type CollapsibleHandles = {
 };
 
 export type CollapsibleContextType = CollapsibleHandles & {
+  scrollViewRefs: React.RefObject<any>;
   scrollY: Animated.SharedValue<number>;
   headerHeight: Animated.SharedValue<number>;
   stickyHeaderHeight: Animated.SharedValue<number>;
@@ -49,6 +50,7 @@ export type LayoutParams = {
 
 export type CollapsibleContextInternalType = {
   scrollViewRef: React.RefObject<any>;
+  scrollViewRefs: React.RefObject<any>;
   containerRef: React.RefObject<any>;
   containerHeight: Animated.SharedValue<number>;
   contentMinHeight: Animated.SharedValue<number>;
