@@ -28,7 +28,7 @@ export default function CollapsibleFlatList<Data>({
   ...props
 }: Props<Data>) {
   const { headerHeight, stickyHeaderHeight } = useCollapsibleContext();
-  const { contentMinHeight, scrollViewRef, fixedHeaderHeight } =
+  const { contentMinHeight, scrollViewRef, fixedHeaderHeight, scrollViewRefs } =
     useInternalCollapsibleContext();
   const mounted = useRef(true);
   const contentHeight = useRef(0);
@@ -37,6 +37,11 @@ export default function CollapsibleFlatList<Data>({
   );
   const [internalProgressViewOffset, setInternalProgressViewOffset] =
     useState(0);
+
+  function setRef(ref: any) {
+    scrollViewRefs.current?.push(ref)
+    scrollViewRef.current = ref
+  }
 
   useEffect(() => {
     return () => {
@@ -109,8 +114,8 @@ export default function CollapsibleFlatList<Data>({
     () => [
       styles.contentContainer,
       props.contentContainerStyle,
-      { 
-        minHeight: internalContentMinHeight, 
+      {
+        minHeight: internalContentMinHeight,
         paddingTop: stickyHeaderHeight.value + (+((props.contentContainerStyle as ViewStyle)?.paddingTop || 0))
       },
     ],
@@ -121,9 +126,9 @@ export default function CollapsibleFlatList<Data>({
     contentHeight.current = height;
   }, []);
 
-  const handleScrollToIndexFailed = useCallback(() => {}, []);
+  const handleScrollToIndexFailed = useCallback(() => { }, []);
 
-  const topBarHeight = useDerivedValue(()=>headerHeight.value - stickyHeaderHeight.value, [headerHeight, stickyHeaderHeight])
+  const topBarHeight = useDerivedValue(() => headerHeight.value - stickyHeaderHeight.value, [headerHeight, stickyHeaderHeight])
 
   function renderListHeader() {
     return (
@@ -136,7 +141,7 @@ export default function CollapsibleFlatList<Data>({
 
   return (
     <AnimatedFlatList
-      ref={scrollViewRef}
+      ref={setRef}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       scrollEventThrottle={1}
