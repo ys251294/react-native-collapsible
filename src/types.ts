@@ -49,13 +49,13 @@ export type LayoutParams = {
 export type CollapsibleContextInternalType = {
   scrollViewRef: React.RefObject<any>;
   containerRef: React.RefObject<any>;
+  containerHeight: Animated.SharedValue<number>;
   contentMinHeight: Animated.SharedValue<number>;
   headerViewPositions: Animated.SharedValue<
     Record<string, { top: number; stickyHeight: number }>
   >;
   fixedHeaderHeight: Animated.SharedValue<number>;
   headerHeight: Animated.SharedValue<number>;
-  handleContainerHeight: (height: number) => void;
   handleHeaderContainerLayout: (
     key: string,
     layout?: LayoutRectangle,

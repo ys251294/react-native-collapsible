@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useRef } from 'react';
+import React, { useLayoutEffect } from 'react';
 import {
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
-  LayoutChangeEvent,
   StyleSheet,
   View,
   ViewProps,
@@ -25,11 +24,8 @@ export default function CollapsibleContainer({
   textInputRefs = [],
   ...props
 }: Props) {
-  const { handleContainerHeight, containerRef } =
-    useInternalCollapsibleContext();
+  const { containerHeight, containerRef } = useInternalCollapsibleContext();
   const { scrollY, scrollTo } = useCollapsibleContext();
-
-  const containerHeight = useRef(0);
 
   useKeyboardShowEvent(() => {
     textInputRefs.some((ref) => {
@@ -43,10 +39,10 @@ export default function CollapsibleContainer({
           // @ts-ignore
           containerRef.current,
           (_left: number, top: number, _width: number, height: number) => {
-            if (top + height - scrollY.value > containerHeight.current) {
+            if (top + height - scrollY.value > containerHeight.value) {
               const extraOffset =
                 keyboardAvoidingViewProps?.keyboardVerticalOffset ?? 20;
-              scrollTo(top + height + extraOffset - containerHeight.current);
+              scrollTo(top + height + extraOffset - containerHeight.value);
             }
           },
           () => {}
@@ -56,10 +52,9 @@ export default function CollapsibleContainer({
     });
   });
 
-  const handleContainerLayout = useCallback((layout: LayoutChangeEvent) => {
-    const height = layout.nativeEvent.layout.height;
-    containerHeight.current = height;
-    handleContainerHeight(height);
+  useLayoutEffect(() => {
+    const { height } = containerRef.current.unstable_getBoundingClientRect();
+    containerHeight.value = height;
   }, []);
 
   return (
@@ -72,7 +67,6 @@ export default function CollapsibleContainer({
         {...props}
         ref={containerRef}
         style={[styles.container, props.style]}
-        onLayout={handleContainerLayout}
         collapsable={false}
       >
         <CollapsibleHeaderConsumer>{children}</CollapsibleHeaderConsumer>

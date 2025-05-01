@@ -68,10 +68,6 @@ export default function withCollapsibleContext<T>(Component: FC<T>) {
       []
     );
 
-    const handleContainerHeight = useCallback((height: number) => {
-      containerHeight.value = height;
-    }, []);
-
     const handleScrollToView = useCallback(
       (ref: React.RefObject<any>, animated?: boolean) => {
         if (!ref.current) {
@@ -126,10 +122,10 @@ export default function withCollapsibleContext<T>(Component: FC<T>) {
     const internalContext = useMemo(
       () => ({
         containerRef,
+        containerHeight,
         scrollViewRef,
         handleHeaderContainerLayout,
         setCollapsibleHandlers,
-        handleContainerHeight,
         headerHeight,
         fixedHeaderHeight,
         contentMinHeight,
@@ -138,7 +134,6 @@ export default function withCollapsibleContext<T>(Component: FC<T>) {
       [
         setCollapsibleHandlers,
         handleHeaderContainerLayout,
-        handleContainerHeight,
         headerHeight,
         fixedHeaderHeight,
         contentMinHeight,

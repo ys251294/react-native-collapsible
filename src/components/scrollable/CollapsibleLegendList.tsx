@@ -1,31 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, FlatListProps } from 'react-native';
-import Animated, {
-  runOnJS,
-  useAnimatedReaction,
-} from 'react-native-reanimated';
+import { runOnJS, useAnimatedReaction } from 'react-native-reanimated';
 import useAnimatedScroll from './useAnimatedScroll';
 import useInternalCollapsibleContext from '../../hooks/useInternalCollapsibleContext';
 import type { CollapsibleProps } from '../../types';
 import AnimatedTopView from '../header/AnimatedTopView';
 import useCollapsibleContext from '../../hooks/useCollapsibleContext';
 
-let FlashList = null;
+let AnimatedLegendList: any = null;
 try {
-  FlashList = require('@shopify/flash-list').FlashList;
+  AnimatedLegendList = require('@legendapp/list/reanimated').AnimatedLegendList;
 } catch (e) {
   console.warn(e);
 }
-if (!FlashList) {
-  throw new Error('@shopify/flash-list is not installed');
+if (!AnimatedLegendList) {
+  throw new Error('@legendapp/list is not installed');
 }
-
-const AnimatedFlashList = Animated.createAnimatedComponent(FlashList);
 
 type Props<Data> = FlatListProps<Data> & CollapsibleProps;
 
-export default function CollapsibleFlashList<Data>({
+export default function CollapsibleLegendList<Data>({
   headerSnappable = true,
   ...props
 }: Props<Data>) {
@@ -53,7 +48,7 @@ export default function CollapsibleFlashList<Data>({
   }, []);
 
   const scrollToLocation = useCallback(() => {
-    console.warn('CollapsibleFlatList does not support scrollToLocation');
+    console.warn('CollapsibleLegendList does not support scrollToLocation');
   }, []);
 
   const { scrollHandler } = useAnimatedScroll({
@@ -93,14 +88,13 @@ export default function CollapsibleFlashList<Data>({
 
   return (
     <View style={[styles.container, props.style]}>
-      <AnimatedFlashList
+      <AnimatedLegendList
         ref={scrollViewRef}
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
         scrollEventThrottle={1}
         onScrollToIndexFailed={handleScrollToIndexFailed}
         {...props}
-        // @ts-ignore
         onScroll={scrollHandler}
         ListHeaderComponent={renderListHeader()}
         //@ts-ignore
