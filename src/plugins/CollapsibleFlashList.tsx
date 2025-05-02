@@ -1,29 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, FlatListProps } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedReaction,
 } from 'react-native-reanimated';
-import useAnimatedScroll from './useAnimatedScroll';
-import useInternalCollapsibleContext from '../../hooks/useInternalCollapsibleContext';
-import type { CollapsibleProps } from '../../types';
-import AnimatedTopView from '../header/AnimatedTopView';
-import useCollapsibleContext from '../../hooks/useCollapsibleContext';
-
-let FlashList = null;
-try {
-  FlashList = require('@shopify/flash-list').FlashList;
-} catch (e) {
-  console.warn(e);
-}
-if (!FlashList) {
-  throw new Error('@shopify/flash-list is not installed');
-}
+import useAnimatedScroll from '../components/scrollable/useAnimatedScroll';
+import useInternalCollapsibleContext from '../hooks/useInternalCollapsibleContext';
+import type { CollapsibleProps } from '../types';
+import AnimatedTopView from '../components/header/AnimatedTopView';
+import useCollapsibleContext from '../hooks/useCollapsibleContext';
+import { FlashList, FlashListProps } from '@shopify/flash-list';
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList);
 
-type Props<Data> = FlatListProps<Data> & CollapsibleProps;
+type Props<Data> = FlashListProps<Data> & CollapsibleProps;
 
 export default function CollapsibleFlashList<Data>({
   headerSnappable = true,

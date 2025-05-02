@@ -1,22 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { View, StyleSheet, FlatListProps } from 'react-native';
-import { runOnJS, useAnimatedReaction } from 'react-native-reanimated';
-import useAnimatedScroll from './useAnimatedScroll';
-import useInternalCollapsibleContext from '../../hooks/useInternalCollapsibleContext';
-import type { CollapsibleProps } from '../../types';
-import AnimatedTopView from '../header/AnimatedTopView';
-import useCollapsibleContext from '../../hooks/useCollapsibleContext';
-
-let AnimatedLegendList: any = null;
-try {
-  AnimatedLegendList = require('@legendapp/list/reanimated').AnimatedLegendList;
-} catch (e) {
-  console.warn(e);
-}
-if (!AnimatedLegendList) {
-  throw new Error('@legendapp/list is not installed');
-}
+import {
+  runOnJS,
+  useAnimatedProps,
+  useAnimatedReaction,
+  useSharedValue,
+} from 'react-native-reanimated';
+import useAnimatedScroll from '../components/scrollable/useAnimatedScroll';
+import useInternalCollapsibleContext from '../hooks/useInternalCollapsibleContext';
+import type { CollapsibleProps } from '../types';
+import AnimatedTopView from '../components/header/AnimatedTopView';
+import useCollapsibleContext from '../hooks/useCollapsibleContext';
+import { AnimatedLegendList } from '@legendapp/list/reanimated';
 
 type Props<Data> = FlatListProps<Data> & CollapsibleProps;
 
@@ -27,8 +23,7 @@ export default function CollapsibleLegendList<Data>({
   const { headerHeight } = useCollapsibleContext();
   const { scrollViewRef, fixedHeaderHeight } = useInternalCollapsibleContext();
   const mounted = useRef(true);
-  const [internalProgressViewOffset, setInternalProgressViewOffset] =
-    useState(0);
+  const internalProgressViewOffset = useSharedValue(0);
 
   useEffect(() => {
     return () => {
@@ -60,7 +55,7 @@ export default function CollapsibleLegendList<Data>({
 
   const handleInternalProgressViewOffset = useCallback((value: number) => {
     if (mounted.current) {
-      setInternalProgressViewOffset(value);
+      internalProgressViewOffset.value = value;
     }
   }, []);
 
@@ -86,8 +81,15 @@ export default function CollapsibleLegendList<Data>({
     );
   }
 
+  const animatedProps = useAnimatedProps(() => {
+    return {
+      progressViewOffset: internalProgressViewOffset.value,
+    };
+  });
+
   return (
     <View style={[styles.container, props.style]}>
+      {/* @ts-ignore */}
       <AnimatedLegendList
         ref={scrollViewRef}
         keyboardDismissMode="on-drag"
@@ -99,7 +101,7 @@ export default function CollapsibleLegendList<Data>({
         ListHeaderComponent={renderListHeader()}
         //@ts-ignore
         simultaneousHandlers={[]}
-        progressViewOffset={internalProgressViewOffset}
+        animatedProps={animatedProps}
       />
     </View>
   );
