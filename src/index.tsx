@@ -9,3 +9,6 @@ export { default as CollapsibleHeaderContainer } from './components/header/Colla
 export { default as StickyView } from './components/header/StickyView';
 export { default as CollapsibleView } from './components/CollapsibleView';
 export * from './components/CollapsibleView';
+
+export { default as CollapsibleFlashList } from './plugins/CollapsibleFlashList';
+export { default as CollapsibleLegendList } from './plugins/CollapsibleLegendList';
