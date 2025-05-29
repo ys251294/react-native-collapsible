@@ -14,12 +14,14 @@ import CollapsibleHeaderConsumer from './header/CollapsibleHeaderConsumer';
 
 type Props = Omit<ViewProps, 'ref' | 'onLayout'> & {
   children: Element;
+  KeyboardAvoidingViewComponent?: typeof KeyboardAvoidingView;
   keyboardAvoidingViewProps?: KeyboardAvoidingViewProps;
   textInputRefs?: any[];
 };
 
 export default function CollapsibleContainer({
   children,
+  KeyboardAvoidingViewComponent = KeyboardAvoidingView,
   keyboardAvoidingViewProps,
   textInputRefs = [],
   ...props
@@ -58,7 +60,7 @@ export default function CollapsibleContainer({
   }, []);
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAvoidingViewComponent
       style={styles.container}
       behavior="padding"
       {...keyboardAvoidingViewProps}
@@ -71,7 +73,7 @@ export default function CollapsibleContainer({
       >
         <CollapsibleHeaderConsumer>{children}</CollapsibleHeaderConsumer>
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingViewComponent>
   );
 }
 

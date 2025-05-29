@@ -11,4 +11,3 @@ export { default as CollapsibleView } from './components/CollapsibleView';
 export * from './components/CollapsibleView';
 
 export { default as CollapsibleFlashList } from './plugins/CollapsibleFlashList';
-export { default as CollapsibleLegendList } from './plugins/CollapsibleLegendList';
