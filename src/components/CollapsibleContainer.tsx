@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useLayoutEffect } from 'react';
+import React, { useCallback } from 'react';
 import {
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
