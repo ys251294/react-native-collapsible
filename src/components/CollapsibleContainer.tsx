@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useLayoutEffect } from 'react';
+import React, { useCallback, useLayoutEffect } from 'react';
 import {
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
+  LayoutChangeEvent,
   StyleSheet,
   View,
   ViewProps,
@@ -11,6 +12,7 @@ import useKeyboardShowEvent from '../hooks/useKeyboardShowEvent';
 import useInternalCollapsibleContext from '../hooks/useInternalCollapsibleContext';
 import useCollapsibleContext from '../hooks/useCollapsibleContext';
 import CollapsibleHeaderConsumer from './header/CollapsibleHeaderConsumer';
+import { runOnUI } from 'react-native-reanimated';
 
 type Props = Omit<ViewProps, 'ref' | 'onLayout'> & {
   children: Element;
@@ -54,9 +56,16 @@ export default function CollapsibleContainer({
     });
   });
 
-  useLayoutEffect(() => {
-    const { height } = containerRef.current.unstable_getBoundingClientRect();
-    containerHeight.value = height;
+  // useLayoutEffect(() => {
+  //   const { height } = containerRef.current.unstable_getBoundingClientRect();
+  //   containerHeight.value = height;
+  // }, []);
+
+  const handleContainerLayout = useCallback((layout: LayoutChangeEvent) => {
+    const height = layout.nativeEvent.layout.height;
+    runOnUI(() => {
+      containerHeight.value = height;
+    })();
   }, []);
 
   return (
@@ -70,6 +79,7 @@ export default function CollapsibleContainer({
         ref={containerRef}
         style={[styles.container, props.style]}
         collapsable={false}
+        onLayout={handleContainerLayout}
       >
         <CollapsibleHeaderConsumer>{children}</CollapsibleHeaderConsumer>
       </View>
