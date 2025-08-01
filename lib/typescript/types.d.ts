@@ -47,6 +47,7 @@ export type CollapsibleContextInternalType = {
     scrollViewRef: React.RefObject<any>;
     scrollViewRefs: React.RefObject<any>;
     containerRef: React.RefObject<any>;
+    containerHeight: Animated.SharedValue<number>;
     contentMinHeight: Animated.SharedValue<number>;
     headerViewPositions: Animated.SharedValue<Record<string, {
         top: number;
@@ -54,7 +55,6 @@ export type CollapsibleContextInternalType = {
     }>>;
     fixedHeaderHeight: Animated.SharedValue<number>;
     headerHeight: Animated.SharedValue<number>;
-    handleContainerHeight: (height: number) => void;
     handleHeaderContainerLayout: (key: string, layout?: LayoutRectangle, stickyHeight?: number) => void;
     setCollapsibleHandlers: (handlers: CollapsibleHandles) => void;
 };
